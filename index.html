@@ -10,3 +10,45 @@
 </body>
 
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Video Thumbnail Generator</title>
+</head>
+
+<body>
+
+<h2>Upload Video</h2>
+
+<input type="file" id="videoInput" accept="video/*">
+
+<br><br>
+
+<video id="video" width="400" controls></video>
+
+<br><br>
+
+<canvas id="canvas" width="400"></canvas>
+
+<br><br>
+
+<button onclick="capture()">Generate Thumbnail</button>
+
+<script>
+
+let video = document.getElementById("video");
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+document.getElementById("videoInput").onchange = function(e){
+video.src = URL.createObjectURL(e.target.files[0]);
+}
+
+function capture(){
+ctx.drawImage(video,0,0,400,225);
+}
+
+</script>
+
+</body>
+</html>
