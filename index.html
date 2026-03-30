@@ -1,28 +1,116 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
-
-<!-- ✅ Google Verification -->
-<meta name="google-site-verification" content="rZBC22k2hXjnX6gt9Ta3-fYGNC8sPCBrUZO8yH2H9Jo" />
-
-<!-- ✅ Title -->
-<title>To Kaise Hain Aap Sab</title>
+<title>Adi Wallpapers 🔥</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4466207177430330"
-     crossorigin="anonymous"></script>
+crossorigin="anonymous"></script>
+
+<style>
+body{margin:0;font-family:sans-serif;background:#0f172a;color:white;}
+#gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:10px;}
+img{width:100%;border-radius:10px;}
+button{padding:8px;border:none;border-radius:5px;}
+</style>
 
 </head>
 
 <body>
 
-<h1>Hello, Dosto!</h1>
-<p>Insta id: official_aditya_yadav</p>
+<h2 style="text-align:center;">🔥 Adi Wallpapers</h2>
 
-<h2>Upload Video</h2>
-<input type="file">
+<input id="search" placeholder="Search..." style="width:90%;margin:10px auto;display:block;padding:10px;border-radius:10px;">
+
+<button onclick="toggleMode()" style="position:fixed;top:10px;right:10px;">🌙</button>
+
+<div id="gallery"></div>
+
+<div id="viewer" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:black;justify-content:center;align-items:center;flex-direction:column;">
+<img id="bigImg" style="max-width:100%;max-height:70%;">
+<div id="info"></div>
+
+<button onclick="likeImg()">❤️ Like</button>
+
+<a id="downloadBtn" href="#" download onclick="countDownload()">
+<button>Download</button>
+</a>
+</div>
+
+<script>
+let username="aditya-codexhub";
+let repo="Adi-x-codes";
+let folder="images";
+let allImages=[];
+
+async function loadImages(){
+let url=`https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+let res=await fetch(url);
+let data=await res.json();
+
+let gallery=document.getElementById("gallery");
+gallery.innerHTML="";
+allImages=[];
+
+data.forEach(file=>{
+if(file.name.endsWith(".jpg")||file.name.endsWith(".png")){
+allImages.push(file.download_url);
+
+let div=document.createElement("div");
+div.innerHTML=`<img src="${file.download_url}" onclick="openImg('${file.download_url}')">`;
+gallery.appendChild(div);
+}
+});
+}
+loadImages();
+
+document.getElementById("search").oninput=function(){
+let val=this.value.toLowerCase();
+let g=document.getElementById("gallery");
+g.innerHTML="";
+allImages.forEach(src=>{
+if(src.toLowerCase().includes(val)){
+let div=document.createElement("div");
+div.innerHTML=`<img src="${src}" onclick="openImg('${src}')">`;
+g.appendChild(div);
+}
+});
+}
+
+function openImg(src){
+viewer.style.display="flex";
+bigImg.src=src;
+downloadBtn.href=src;
+
+let l=localStorage.getItem(src+"_like")||0;
+let d=localStorage.getItem(src+"_download")||0;
+info.innerText="❤️ "+l+" | 📥 "+d;
+}
+
+viewer.onclick=function(e){
+if(e.target.id==="viewer") viewer.style.display="none";
+}
+
+function likeImg(){
+let src=bigImg.src;
+let l=localStorage.getItem(src+"_like")||0;
+l++;
+localStorage.setItem(src+"_like",l);
+alert("Liked: "+l);
+}
+
+function countDownload(){
+let src=bigImg.src;
+let d=localStorage.getItem(src+"_download")||0;
+d++;
+localStorage.setItem(src+"_download",d);
+}
+
+function toggleMode(){
+document.body.classList.toggle("light");
+}
+</script>
 
 </body>
-
-</html>
+     </html>
