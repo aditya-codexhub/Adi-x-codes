@@ -9,7 +9,8 @@
 body{margin:0;font-family:sans-serif;background:#0f172a;color:white;}
 #gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:10px;}
 img{width:100%;border-radius:10px;}
-button{padding:8px;border:none;border-radius:5px;}
+button{padding:8px;border:none;border-radius:5px;margin:5px;}
+#viewer{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:black;justify-content:center;align-items:center;flex-direction:column;}
 </style>
 
 </head>
@@ -24,16 +25,23 @@ button{padding:8px;border:none;border-radius:5px;}
 
 <div id="gallery"></div>
 
-<div id="viewer" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:black;justify-content:center;align-items:center;flex-direction:column;">
+<div id="viewer">
   
 <img id="bigImg" style="max-width:100%;max-height:70%;">
 <div id="info" style="margin:10px;"></div>
 
-<button onclick="likeImg()">❤️ Like</button>
+<button onclick="event.stopPropagation(); likeImg()">❤️ Like</button>
 
-<button onclick="downloadImage()">Download</button>
+<button onclick="event.stopPropagation(); downloadImage()">Download</button>
 
-<p style="font-size:12px;">Download नहीं हो तो image को hold करके save करें</p>
+<!-- 🔥 Instruction -->
+<p style="text-align:center; font-size:14px; color:#ccc; margin-top:10px;">
+📥 Download kaise kare:<br><br>
+1️⃣ Download button dabao<br>
+2️⃣ Image open hogi<br>
+3️⃣ Image ko hold karo (long press)<br>
+4️⃣ "Download image" pe click karo ✅
+</p>
 
 </div>
 
@@ -98,12 +106,18 @@ localStorage.setItem(src+"_like",l);
 alert("Liked: "+l);
 }
 
-// 🔥 FIXED DOWNLOAD SYSTEM
+// 🔥 Download FIX
 function downloadImage(){
 let url = bigImg.src;
 
-// image open in new tab
-window.open(url, "_blank");
+let a = document.createElement("a");
+a.href = url;
+a.target = "_blank";
+a.rel = "noopener";
+
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
 
 // counter
 let d = localStorage.getItem(url+"_download")||0;
@@ -117,4 +131,4 @@ document.body.classList.toggle("light");
 </script>
 
 </body>
-     </html>
+</html>
