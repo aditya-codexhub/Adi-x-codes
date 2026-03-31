@@ -5,12 +5,22 @@
 <title>Adi Wallpapers 🔥</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- 🔥 GOOGLE ANALYTICS (यहाँ डाला है) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXX');
+</script>
+<!-- 🔥 END ANALYTICS -->
+
 <style>
 body{margin:0;font-family:sans-serif;background:#0f172a;color:white;}
 #gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:10px;}
 img{width:100%;border-radius:10px;}
 button{padding:8px;border:none;border-radius:5px;margin:5px;}
-#viewer{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:black;justify-content:center;align-items:center;flex-direction:column;}
+#viewer{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:black;justify-content:center;align-items:center;flex-direction:column;overflow-y:auto;padding:20px;}
 </style>
 
 </head>
@@ -21,26 +31,19 @@ button{padding:8px;border:none;border-radius:5px;margin:5px;}
 
 <input id="search" placeholder="Search..." style="width:90%;margin:10px auto;display:block;padding:10px;border-radius:10px;">
 
-<button onclick="toggleMode()" style="position:fixed;top:10px;right:10px;">🌙</button>
-
 <div id="gallery"></div>
 
 <div id="viewer">
   
-<img id="bigImg" style="max-width:100%;max-height:70%;">
+<img id="bigImg" style="max-width:100%;max-height:60%;margin-top:10px;">
 <div id="info" style="margin:10px;"></div>
 
 <button onclick="event.stopPropagation(); likeImg()">❤️ Like</button>
 
 <button onclick="event.stopPropagation(); downloadImage()">Download</button>
 
-<!-- 🔥 Instruction -->
-<p style="text-align:center; font-size:14px; color:#ccc; margin-top:10px;">
-📥 Download kaise kare:<br><br>
-1️⃣ Download button dabao<br>
-2️⃣ Image open hogi<br>
-3️⃣ Image ko hold karo (long press)<br>
-4️⃣ "Download image" pe click karo ✅
+<p style="text-align:center;font-size:13px;color:#ccc;">
+📥 Download: Button dabao → Image hold karo → Save
 </p>
 
 </div>
@@ -72,19 +75,6 @@ gallery.appendChild(div);
 }
 loadImages();
 
-document.getElementById("search").oninput=function(){
-let val=this.value.toLowerCase();
-let g=document.getElementById("gallery");
-g.innerHTML="";
-allImages.forEach(src=>{
-if(src.toLowerCase().includes(val)){
-let div=document.createElement("div");
-div.innerHTML=`<img src="${src}" onclick="openImg('${src}')">`;
-g.appendChild(div);
-}
-});
-}
-
 function openImg(src){
 viewer.style.display="flex";
 bigImg.src=src;
@@ -106,27 +96,20 @@ localStorage.setItem(src+"_like",l);
 alert("Liked: "+l);
 }
 
-// 🔥 Download FIX
 function downloadImage(){
 let url = bigImg.src;
 
 let a = document.createElement("a");
 a.href = url;
 a.target = "_blank";
-a.rel = "noopener";
 
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
 
-// counter
 let d = localStorage.getItem(url+"_download")||0;
 d++;
 localStorage.setItem(url+"_download", d);
-}
-
-function toggleMode(){
-document.body.classList.toggle("light");
 }
 </script>
 
